@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, ScrollView, TextInput } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, ScrollView, TextInput, Image } from 'react-native';
 import { FontAwesome5 } from '@expo/vector-icons'; // Import icons from FontAwesome5
 import Carousel from 'react-native-snap-carousel';
 
@@ -64,10 +64,14 @@ const MainPage = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <View style={styles.logoContainer}>
-          <FontAwesome5 name="user" size={24} color="black" style={{ marginRight: 5 }} />
-          <Text style={styles.heading}>Welcome Back, Harleen</Text>
-        </View>
+      <View style={styles.logoContainer}>
+      <Image
+  source={require('../assets/logo_user.png')} // Replace '../assets/logo_user.png' with the actual path to your image file
+  style={{ width: 24, height: 24, marginRight: 5, borderRadius: 12 }} // Set the borderRadius to half of the width or height to make it curved
+/>
+
+  <Text style={styles.heading}>Welcome Back, Harleen</Text>
+</View>
         <TouchableOpacity onPress={toggleSearchBar}>
           <FontAwesome5 name="search" size={24} color="black" />
         </TouchableOpacity>
@@ -156,8 +160,9 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     paddingHorizontal: 10,
     marginRight: 10,
-    fontFamily: 'Roboto', // Add fontFamily
+    fontFamily: 'Roboto-Light', // Add fontFamily
     fontSize: 16, // Increase font size
+    color: '#333', // Change text color
   },
   searchButton: {
     backgroundColor: 'lightblue',
@@ -166,9 +171,9 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   searchButtonText: {
-    fontWeight: 'bold',
+
     color: 'white',
-    fontFamily: 'Roboto', // Add fontFamily
+    fontFamily: 'Roboto-Light', // Add fontFamily
     fontSize: 16, // Increase font size
   },
   closeButton: {
@@ -178,9 +183,13 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   carouselContainer: {
+    marginTop: 40,
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 20,
+    backgroundColor: '#f8f8f8', // Change background color to off-white
+    borderRadius: 10, // Add border radius for a modern look
+    padding: 20, // Add padding for spacing
   },
   optionsContainer: {
     marginTop: 10,
@@ -195,14 +204,15 @@ const styles = StyleSheet.create({
     aspectRatio: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'lightblue',
+    backgroundColor: '#f8f8f8', // Change background color to off-white
     borderRadius: 10,
     elevation: 5,
     marginBottom: 10,
+    padding: 20, // Add padding for spacing
   },
   optionTitle: {
     fontSize: 16,
-    fontWeight: 'bold',
+    fontFamily: 'Roboto-Light',
     textAlign: 'center',
   },
   carouselCard: {
@@ -211,14 +221,16 @@ const styles = StyleSheet.create({
     aspectRatio: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'lightgreen',
+    backgroundColor: '#f8f8f8', // Change background color to off-white
     borderRadius: 10,
     elevation: 5,
     marginBottom: 10,
+    padding: 20, // Add padding for spacing
   },
   carouselTitle: {
+    fontFamily: 'Roboto-Light',
     fontSize: 16,
-    fontWeight: 'bold',
+   
     textAlign: 'center',
   },
   bottomNavBar: {
@@ -234,10 +246,9 @@ const styles = StyleSheet.create({
   heading: {
     fontSize: 24,
     fontWeight: '300', // Increase font weight
-    fontFamily: 'Roboto', // Add fontFamily
-    color: '#333', // Add color
+    fontFamily: 'Roboto-Light', // Add fontFamily
+    color: 'black', // Change text color to grey
   },
 });
-
 
 export default MainPage;
