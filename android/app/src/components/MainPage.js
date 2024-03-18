@@ -156,6 +156,8 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     paddingHorizontal: 10,
     marginRight: 10,
+    fontFamily: 'Roboto', // Add fontFamily
+    fontSize: 16, // Increase font size
   },
   searchButton: {
     backgroundColor: 'lightblue',
@@ -166,6 +168,8 @@ const styles = StyleSheet.create({
   searchButtonText: {
     fontWeight: 'bold',
     color: 'white',
+    fontFamily: 'Roboto', // Add fontFamily
+    fontSize: 16, // Increase font size
   },
   closeButton: {
     padding: 10,
@@ -229,8 +233,11 @@ const styles = StyleSheet.create({
   },
   heading: {
     fontSize: 24,
-    fontWeight: 'bold', // Increase font weight
+    fontWeight: '300', // Increase font weight
+    fontFamily: 'Roboto', // Add fontFamily
+    color: '#333', // Add color
   },
 });
+
 
 export default MainPage;
