@@ -16,7 +16,7 @@ const App = () => {
   // Load the font
   const loadFont = async () => {
     await Font.loadAsync({
-      'Roboto-Italic': require('./android/app/src/assets/fonts/Roboto-Light.ttf'), // Adjusted the path
+      'Roboto-Light': require('./android/app/src/assets/fonts/Roboto-Light.ttf'), // Adjusted the font name and path
     });
     setIsFontLoaded(true);
   };

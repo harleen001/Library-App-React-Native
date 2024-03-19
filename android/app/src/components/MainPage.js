@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView, TextInput, Image } from 'react-native';
 import { FontAwesome5 } from '@expo/vector-icons'; // Import icons from FontAwesome5
 import Carousel from 'react-native-snap-carousel';
+import { LinearGradient } from 'expo-linear-gradient';
+import AttendancePage from '../components/AttendancePage'; // Import the AttendancePage component
 
 const MainPage = ({ navigation }) => {
   const [showSearchBar, setShowSearchBar] = useState(false);
@@ -22,24 +24,27 @@ const MainPage = ({ navigation }) => {
   };
 
   const navigateToScreen = (screenName) => {
-    navigation.navigate(screenName);
+    if (screenName === 'Attendance') {
+      navigation.navigate('AttendancePage'); // Navigate to 'AttendancePage' route
+    } else {
+      navigation.navigate(screenName);
+    }
   };
 
   const options = [
-    { title: 'View Attendance', screenName: 'ViewAttendance' },
-    { title: 'Book Issue History', screenName: 'BookIssueHistory' },
-    { title: 'Overdue Books', screenName: 'OverdueBooks' },
-    { title: 'Book Search', screenName: 'BookSearch' },
-    { title: 'Book Availability', screenName: 'BookAvailability' },
-    { title: 'Request Issuance', screenName: 'RequestIssuance' },
-   
+    { title: 'Attendance', screenName: 'Attendance', arrowStyle: { fontSize: 32 } },
+    { title: 'Issue History', screenName: 'BookIssueHistory', arrowStyle: { fontSize: 32 } },
+    { title: 'Due Books', screenName: 'OverdueBooks', arrowStyle: { fontSize: 32 } },
+    { title: 'Book Search', screenName: 'BookSearch', arrowStyle: { fontSize: 32 } },
+    { title: 'Availability', screenName: 'BookAvailability', arrowStyle: { fontSize: 32 } },
+    { title: 'Request', screenName: 'RequestIssuance', arrowStyle: { fontSize: 32 } },
   ];
 
   const carouselItems = [
-    { title: 'Card 1' },
-    { title: 'Card 2' },
-    { title: 'Card 3' },
-    { title: 'Card 4' },
+    { title: '"Libraries allow children to ask questions about the world and find the answers. And the wonderful thing is that once a child learns to use a library, the doors to learning are always open." - Laura Bush', background: ['#71722a', '#ef992c'] },
+    { title: '"The only way to do great work is to love what you do. If you have not found it yet, keep looking. Dont settle. As with all matters of the heart, you will know when you find it." - Steve Jobs', background: ['#ea6e86','#594893'] },
+    { title: '"The function of education is to teach one to think intensively and to think critically. Intelligence plus character - that is the goal of true education." - Martin Luther King Jr.', background: ['#f1bd40','#57e9f4'] },
+    { title: '"Educationists should build the capacities of the spirit of inquiry, creativity, entrepreneurial and moral leadership among students and become their role model. - A.P.J. Abdul Kalam"', background: ['#8ec99e','#016c7a'] },
   ];
 
   const renderCard = ({ item, index }) => {
@@ -48,30 +53,45 @@ const MainPage = ({ navigation }) => {
         style={styles.optionCard}
         onPress={() => navigateToScreen(item.screenName)}
       >
-        <Text style={styles.optionTitle}>{item.title}</Text>
+        <Text style={styles.optionTitle}>
+          {item.title}
+          {item.arrowStyle && <Text style={item.arrowStyle}>{'\u2192'}</Text>}
+        </Text>
       </TouchableOpacity>
     );
   };
 
   const renderCarouselItem = ({ item, index }) => {
-    return (
-      <View style={styles.carouselCard}>
-        <Text style={styles.carouselTitle}>{item.title}</Text>
-      </View>
-    );
+    if (item.background) {
+      return (
+        <LinearGradient
+          colors={item.background}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 0 }}
+          style={[styles.carouselCard]}
+        >
+          <Text style={styles.carouselTitle}>{item.title}</Text>
+        </LinearGradient>
+      );
+    } else {
+      return (
+        <View style={[styles.carouselCard, { backgroundColor: item.backgroundColor }]}>
+          <Text style={styles.carouselTitle}>{item.title}</Text>
+        </View>
+      );
+    }
   };
 
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-      <View style={styles.logoContainer}>
-      <Image
-  source={require('../assets/logo_user.png')} // Replace '../assets/logo_user.png' with the actual path to your image file
-  style={{ width: 24, height: 24, marginRight: 5, borderRadius: 12 }} // Set the borderRadius to half of the width or height to make it curved
-/>
-
-  <Text style={styles.heading}>Welcome Back, Harleen</Text>
-</View>
+        <View style={styles.logoContainer}>
+          <Image
+            source={require('../assets/logo_user.png')}
+            style={{ width: 24, height: 24, marginRight: 5, borderRadius: 12 }}
+          />
+          <Text style={styles.heading}>Welcome Back, Harleen</Text>
+        </View>
         <TouchableOpacity onPress={toggleSearchBar}>
           <FontAwesome5 name="search" size={24} color="black" />
         </TouchableOpacity>
@@ -100,7 +120,7 @@ const MainPage = ({ navigation }) => {
             data={carouselItems}
             renderItem={renderCarouselItem}
             sliderWidth={400}
-            itemWidth={300} // Increased item width
+            itemWidth={300}
             layout={'default'}
           />
         </View>
@@ -115,13 +135,13 @@ const MainPage = ({ navigation }) => {
           <FontAwesome5 name="home" size={24} color="black" />
         </TouchableOpacity>
         <TouchableOpacity style={styles.navItem}>
-          <FontAwesome5 name="cog" size={24} color="black" />
+          <FontAwesome5 name="envelope" size={24} color="black" />
         </TouchableOpacity>
         <TouchableOpacity style={styles.navItem}>
           <FontAwesome5 name="user" size={24} color="black" />
         </TouchableOpacity>
         <TouchableOpacity style={styles.navItem}>
-          <FontAwesome5 name="plus" size={24} color="black" />
+          <FontAwesome5 name="cog" size={24} color="black" />
         </TouchableOpacity>
       </View>
     </View>
@@ -134,11 +154,16 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   header: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: 20,
     paddingTop: 20,
+    zIndex: 1,
   },
   logoContainer: {
     flexDirection: 'row',
@@ -160,9 +185,9 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     paddingHorizontal: 10,
     marginRight: 10,
-    fontFamily: 'Roboto-Light', // Add fontFamily
-    fontSize: 16, // Increase font size
-    color: '#333', // Change text color
+    fontFamily: 'Roboto-Light',
+    fontSize: 16,
+    color: '#333',
   },
   searchButton: {
     backgroundColor: 'lightblue',
@@ -171,25 +196,25 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   searchButtonText: {
-
     color: 'white',
-    fontFamily: 'Roboto-Light', // Add fontFamily
-    fontSize: 16, // Increase font size
+    fontFamily: 'Roboto-Light',
+    fontSize: 16,
   },
   closeButton: {
     padding: 10,
   },
   contentContainer: {
     flex: 1,
+    marginTop: 80, // Adjust this value according to your design
   },
   carouselContainer: {
     marginTop: 40,
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 20,
-    backgroundColor: '#f8f8f8', // Change background color to off-white
-    borderRadius: 10, // Add border radius for a modern look
-    padding: 20, // Add padding for spacing
+    backgroundColor: '#f8f8f8',
+    borderRadius: 10,
+    padding: 20,
   },
   optionsContainer: {
     marginTop: 10,
@@ -204,34 +229,32 @@ const styles = StyleSheet.create({
     aspectRatio: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#f8f8f8', // Change background color to off-white
+    backgroundColor: '#f7aa85',
     borderRadius: 10,
     elevation: 5,
     marginBottom: 10,
-    padding: 20, // Add padding for spacing
+    padding: 20,
   },
   optionTitle: {
     fontSize: 16,
     fontFamily: 'Roboto-Light',
-    textAlign: 'center',
+    textAlign: 'justify',
   },
   carouselCard: {
     width: '100%',
-    height: 300, // Increased height
+    height: 300,
     aspectRatio: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#f8f8f8', // Change background color to off-white
     borderRadius: 10,
     elevation: 5,
     marginBottom: 10,
-    padding: 20, // Add padding for spacing
+    padding: 20,
   },
   carouselTitle: {
     fontFamily: 'Roboto-Light',
-    fontSize: 16,
-   
-    textAlign: 'center',
+    fontSize: 24,
+    textAlign: 'justify',
   },
   bottomNavBar: {
     flexDirection: 'row',
@@ -245,9 +268,9 @@ const styles = StyleSheet.create({
   },
   heading: {
     fontSize: 24,
-    fontWeight: '300', // Increase font weight
-    fontFamily: 'Roboto-Light', // Add fontFamily
-    color: 'black', // Change text color to grey
+    fontWeight: '300',
+    fontFamily: 'Roboto-Light',
+    color: 'black',
   },
 });
 
